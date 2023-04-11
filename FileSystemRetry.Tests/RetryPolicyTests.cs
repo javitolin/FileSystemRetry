@@ -1,4 +1,6 @@
-﻿namespace FileSystemRetry.Tests
+﻿using FileSystemRetry.Policy;
+
+namespace FileSystemRetry.Tests
 {
     public class RetryPolicyTests
     {

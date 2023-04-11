@@ -1,4 +1,4 @@
-﻿namespace FileSystemRetry
+﻿namespace FileSystemRetry.Policy
 {
     public class RetryIntervalFunction
     {
@@ -23,7 +23,7 @@
             if (seconds < 0) throw new ArgumentOutOfRangeException(nameof(seconds));
             if (addSeconds < 0) throw new ArgumentOutOfRangeException(nameof(addSeconds));
 
-            return new RetryIntervalFunction((retryNumber) => TimeSpan.FromSeconds(seconds + (retryNumber * addSeconds)));
+            return new RetryIntervalFunction((retryNumber) => TimeSpan.FromSeconds(seconds + retryNumber * addSeconds));
         }
 
         public static RetryIntervalFunction RetryIntervalLog(int seconds)

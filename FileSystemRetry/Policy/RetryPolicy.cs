@@ -1,4 +1,4 @@
-﻿namespace FileSystemRetry
+﻿namespace FileSystemRetry.Policy
 {
     public class RetryPolicy
     {

@@ -1,3 +1,5 @@
+using FileSystemRetry.Extension;
+using FileSystemRetry.Policy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Moq;

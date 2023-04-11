@@ -1,29 +1,26 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FileSystemRetry.Handler;
 using System.IO.Abstractions;
 
-namespace FileSystemRetry
+namespace FileSystemRetry.FileSystem
 {
     public class RetryFileSystem : IFileSystem
     {
-        private RetryPolicy _retryPolicy;
-        private ILogger<IFileSystem>? _logger;
-        private IFileSystem _realFileSystem;
+        private IRetryHandler _retryHandler;
+        private IFileSystem _innerFileSystem;
 
-        public RetryFileSystem(RetryPolicy retryPolicy, ILogger<IFileSystem>? logger, IFileSystem realFileSystem)
+        public RetryFileSystem(IRetryHandler retryHandler, IFileSystem innerFileSystem)
         {
-            _retryPolicy = retryPolicy;
-            _logger = logger;
-            _realFileSystem = realFileSystem;
+            _retryHandler = retryHandler;
+            _innerFileSystem = innerFileSystem;
         }
 
-
-        public IDirectory Directory => throw new NotImplementedException();
+        public IDirectory Directory => new RetryDirectory(_retryHandler, _innerFileSystem);
 
         public IDirectoryInfoFactory DirectoryInfo => throw new NotImplementedException();
 
         public IDriveInfoFactory DriveInfo => throw new NotImplementedException();
 
-        public IFile File => new RetryFile(_retryPolicy, _realFileSystem, _logger);
+        public IFile File => new RetryFile(_retryHandler, _innerFileSystem);
 
         public IFileInfoFactory FileInfo => throw new NotImplementedException();
 

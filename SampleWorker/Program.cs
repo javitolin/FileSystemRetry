@@ -1,4 +1,5 @@
-using FileSystemRetry;
+using FileSystemRetry.Extension;
+using FileSystemRetry.Policy;
 using SampleWorker;
 
 IHost host = Host.CreateDefaultBuilder(args)
