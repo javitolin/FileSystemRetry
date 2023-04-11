@@ -16,18 +16,18 @@ namespace FileSystemRetry.FileSystem
 
         public IDirectory Directory => new RetryDirectory(_retryHandler, _innerFileSystem);
 
-        public IDirectoryInfoFactory DirectoryInfo => throw new NotImplementedException();
+        public IDirectoryInfoFactory DirectoryInfo => new RetryDirectoryInfoFactory(_retryHandler, _innerFileSystem);
 
-        public IDriveInfoFactory DriveInfo => throw new NotImplementedException();
+        public IDriveInfoFactory DriveInfo => new RetryDriveInfoFactory(_retryHandler, _innerFileSystem);
 
         public IFile File => new RetryFile(_retryHandler, _innerFileSystem);
 
-        public IFileInfoFactory FileInfo => throw new NotImplementedException();
+        public IFileInfoFactory FileInfo => new RetryFileInfoFactory(_retryHandler, _innerFileSystem);
 
-        public IFileStreamFactory FileStream => throw new NotImplementedException();
+        public IFileStreamFactory FileStream => new RetryFileStreamFactory(_retryHandler, _innerFileSystem);
 
-        public IFileSystemWatcherFactory FileSystemWatcher => throw new NotImplementedException();
+        public IFileSystemWatcherFactory FileSystemWatcher => new RetryFileSystemWatcherFactory(_retryHandler, _innerFileSystem);
 
-        public IPath Path => throw new NotImplementedException();
+        public IPath Path => new RetryPath(_retryHandler, _innerFileSystem);
     }
 }

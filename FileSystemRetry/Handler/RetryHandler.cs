@@ -51,7 +51,7 @@ namespace FileSystemRetry.Handler
             }
         }
 
-        private bool ShouldRetry(ref int retryCount, Exception ex)
+        public bool ShouldRetry(ref int retryCount, Exception ex)
         {
             var shouldRetryResult = true;
 
