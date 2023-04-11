@@ -12,9 +12,44 @@ namespace FileSystemRetry
         private IFileSystem _fileSystem { get; }
 
         private RetryPolicy _retryPolicy;
-        private ILogger<IFileSystem> _logger;
+        private ILogger<IFileSystem>? _logger;
 
-        public RetryFile(RetryPolicy retryPolicy, IFileSystem fileSystem, ILogger<IFileSystem> logger)
+        private bool ShouldRetry(ref int retryCount, Exception ex)
+        {
+            var shouldRetryResult = true;
+
+            _logger?.LogWarning($"Exception caught: [{ex}]. Retry [{retryCount}] out of [{_retryPolicy.NumberOfRetries}]");
+
+            retryCount++;
+            try
+            {
+                if (retryCount >= _retryPolicy.NumberOfRetries)
+                {
+                    shouldRetryResult = false;
+                    return shouldRetryResult;
+                }
+
+                if (_retryPolicy.ExceptionsToRetry == null)
+                {
+                    shouldRetryResult = true;
+                    return shouldRetryResult;
+                }
+                else
+                {
+                    shouldRetryResult = _retryPolicy.ExceptionsToRetry.Contains(ex.GetType());
+                    return shouldRetryResult;
+                }
+            }
+            finally
+            {
+                if (shouldRetryResult)
+                {
+                    Thread.Sleep(_retryPolicy.RetryFunction(retryCount));
+                }
+            }
+        }
+
+        public RetryFile(RetryPolicy retryPolicy, IFileSystem fileSystem, ILogger<IFileSystem>? logger)
         {
             _fileSystem = fileSystem;
             _retryPolicy = retryPolicy;
@@ -24,9 +59,8 @@ namespace FileSystemRetry
         public void HandleRetryFunction(Action toRetry)
         {
             int retryCount = 0;
-            Exception thrownException;
 
-            do
+            while (true)
             {
                 try
                 {
@@ -35,52 +69,27 @@ namespace FileSystemRetry
                 }
                 catch (Exception ex)
                 {
-                    if (!_retryPolicy.ExceptionsToRetry.Contains(ex.GetType()))
+                    if (!ShouldRetry(ref retryCount, ex))
                         throw;
-
-                    thrownException = ex;
-
-                    _logger.LogWarning($"Exception caught: [{ex}]. Retry [{retryCount}] out of [{_retryPolicy.NumberOfRetries}]");
-                    retryCount++;
-
-                    Thread.Sleep((int)_retryPolicy.RetryInterval.TotalMilliseconds);
                 }
             }
-            while (retryCount < _retryPolicy.NumberOfRetries);
-
-            _logger.LogError($"Max retries ({_retryPolicy.NumberOfRetries}) reached. Throwing exception.");
-            throw thrownException;
         }
 
-        public T HandleRetryFunction<T>(Func<T> func)
+        public T HandleRetryFunction<T>(Func<T> toRetry)
         {
             int retryCount = 0;
-            Exception thrownException;
-
-            do
+            while (true)
             {
                 try
                 {
-                    return func();
+                    return toRetry();
                 }
                 catch (Exception ex)
                 {
-                    if (!_retryPolicy.ExceptionsToRetry.Contains(ex.GetType()))
+                    if (!ShouldRetry(ref retryCount, ex))
                         throw;
-
-                    thrownException = ex;
-
-                    _logger.LogWarning($"Exception caught: [{ex}]. Retry [{retryCount}] out of [{_retryPolicy.NumberOfRetries}]");
-                    retryCount++;
-
-                    Thread.Sleep((int)_retryPolicy.RetryInterval.TotalMilliseconds);
                 }
             }
-            while (retryCount < _retryPolicy.NumberOfRetries);
-
-            _logger.LogError($"Max retries ({_retryPolicy.NumberOfRetries}) reached. Throwing exception.");
-
-            throw thrownException;
         }
 
         public void AppendAllLines(string path, IEnumerable<string> contents)

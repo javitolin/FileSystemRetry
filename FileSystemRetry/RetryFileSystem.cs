@@ -6,10 +6,10 @@ namespace FileSystemRetry
     public class RetryFileSystem : IFileSystem
     {
         private RetryPolicy _retryPolicy;
-        private ILogger<IFileSystem> _logger;
+        private ILogger<IFileSystem>? _logger;
         private IFileSystem _realFileSystem;
 
-        public RetryFileSystem(RetryPolicy retryPolicy, ILogger<IFileSystem> logger, IFileSystem realFileSystem)
+        public RetryFileSystem(RetryPolicy retryPolicy, ILogger<IFileSystem>? logger, IFileSystem realFileSystem)
         {
             _retryPolicy = retryPolicy;
             _logger = logger;

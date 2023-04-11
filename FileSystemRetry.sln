@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemRetry", "FileSyst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWorker", "SampleWorker\SampleWorker.csproj", "{2885E64E-D09B-4C98-B2D3-2EF600DDB57A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemRetry.Tests", "FileSystemRetry.Tests\FileSystemRetry.Tests.csproj", "{193BB0BF-93EF-4EA3-9EAC-5C93F1CC3B01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2885E64E-D09B-4C98-B2D3-2EF600DDB57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2885E64E-D09B-4C98-B2D3-2EF600DDB57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2885E64E-D09B-4C98-B2D3-2EF600DDB57A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{193BB0BF-93EF-4EA3-9EAC-5C93F1CC3B01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193BB0BF-93EF-4EA3-9EAC-5C93F1CC3B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193BB0BF-93EF-4EA3-9EAC-5C93F1CC3B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193BB0BF-93EF-4EA3-9EAC-5C93F1CC3B01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
