@@ -4,6 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>AsadoDevCulture</Authors>
+    <Description>An IFileSystem implementation which allows simple-to-use retry functionallity with the FileSystem</Description>
+    <PackageProjectUrl>https://github.com/javitolin/FileSystemRetry</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/javitolin/FileSystemRetry</RepositoryUrl>
+    <PackageReleaseNotes>Fully working RetryFileSystem</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
